@@ -7,6 +7,11 @@ This repository contains Python code translated from the Java version.
 
 The runnable `main.py` creates a customer and prints a statement.
 
+## Rationale
+
+2.1) Feature Envy: The Movie class was handling pricing logic that belongs to the rental context.
+
+2.2) Single Responsibility Principle (SRP): Each class should have one reason to change.
 
 ## Instructions
 

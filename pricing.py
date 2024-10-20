@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from datetime import datetime
 
 class PriceStrategy(ABC):
     """Abstract base class for price strategies."""
@@ -10,6 +11,19 @@ class PriceStrategy(ABC):
     @abstractmethod
     def get_rental_points(self, days_rented):
         pass
+
+    @classmethod
+    def price_code_for_movie(cls, movie) -> str:
+        """Determine the price code for a given movie."""
+        current_year = datetime.now().year
+
+        if movie.year == current_year:
+            return "New Release"
+
+        if "Children" in movie.genre or "Childrens" in movie.genre:
+            return "Childrens"
+
+        return "Regular"
 
 
 class RegularPriceStrategy(PriceStrategy):

@@ -1,24 +1,28 @@
+from dataclasses import dataclass, field
+from typing import Collection
+from pricing import *
+
+
+@dataclass(frozen=True)
 class Movie:
     """
     A movie available for rent.
     """
-    
-    def __init__(self, title, price_strategy):
-        # Initialize a new movie. 
-        self.title = title
-        self.price_strategy = price_strategy
 
-    def get_price(self, days_rented):
-        """Compute the rental price based on the movie type."""
-        return self.price_strategy.get_price(days_rented)
+    title: str
+    year: int
+    genre: Collection[str] = field(default_factory=list)
+    price_strategy: PriceStrategy = field(default_factory=PriceStrategy)
+    
+    def is_genre(self, genre: str) -> bool:
+        """Check if the movie belongs to a given genre."""
+        return genre.lower() in (g.lower() for g in self.genre)
 
-    def get_rental_points(self, days_rented):
-        """Compute the frequent renter points for the rental."""
-        return self.price_strategy.get_rental_points(days_rented)
-    
-    def get_title(self):
-        """Return title of a movie."""
-        return self.title
-    
     def __str__(self):
-        return self.title
+        """Return the string representation of the movie as 'Title (year)'."""
+        return f"{self.title} ({self.year})"
+
+
+if __name__ == '__main__':
+    movie = Movie("Mulan", 2020, ["Action", "Adventure", "Drama"])
+    print(movie)
